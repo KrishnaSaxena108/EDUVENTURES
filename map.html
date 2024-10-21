@@ -25,15 +25,16 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-      html,body {
-        font-family: 'Poppins', sans-serif;
-        scroll-behavior: smooth;
-        overflow-x: hidden;
-      }
-      
-    </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    html,
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+  </style>
 </head>
 
 <body id="top">
@@ -84,35 +85,46 @@
         <a href="booknow.html" class="btn btn-primary ms-auto rounded-pill d-none d-lg-block">BOOK NOW</a>
       </div>
     </div>
-    
+
   </header>
 
   <main>
-  <h1 class="mheading">Explore 360° Tourist Attractions</h1>
-  <div class="mcontrols-container">
-    <div class="mcontrols">
-      <label for="attractionSelect">Choose a Tourist Attraction:</label>
-      <select id="attractionSelect">
-        <option value="mJqaekQsbm4?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">Qutub Minar, Delhi</option>
-        <option value="skJVCmI4LM4?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">Amer Fort, Rajasthan</option>
-        <option value="jink1D34ors?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">Gateway of India, Maharashtra</option>
-        <option value="8HV1JVgqPM0?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">Taj Mahal, Uttar Pradesh</option>
-        <option value="EBSh4nVtR9s?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">Golden Temple, Punjab</option>
-      </select>
-      <a href="#attractionVideo">
-      <button class="mview-button" onclick="showVideo()">View</button></a>
+    <h1 class="mheading">Explore 360° Tourist Attractions</h1>
+    <div class="mcontrols-container">
+      <div class="mcontrols">
+        <label for="attractionSelect">Choose a Tourist Attraction:</label>
+        <select id="attractionSelect">
+          <option
+            value="mJqaekQsbm4?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">
+            Qutub Minar, Delhi</option>
+          <option
+            value="skJVCmI4LM4?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">
+            Amer Fort, Rajasthan</option>
+          <option
+            value="jink1D34ors?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">
+            Gateway of India, Maharashtra</option>
+          <option
+            value="8HV1JVgqPM0?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">
+            Taj Mahal, Uttar Pradesh</option>
+          <option
+            value="EBSh4nVtR9s?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">
+            Golden Temple, Punjab</option>
+        </select>
+        <a href="#attractionVideo">
+          <button class="mview-button" onclick="showVideo()">View</button></a>
+      </div>
     </div>
-  </div>
-  <div class="mvideo-container">
-    <div id="videoPlaceholder" class="placeholder">Select an attraction to view the video</div>
-    <iframe id="attractionVideo" class="mvideo-frame" style="display:none;" frameborder="0" allow="autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
-  </div>
-</main>
+    <div class="mvideo-container">
+      <div id="videoPlaceholder" class="placeholder">Select an attraction to view the video</div>
+      <iframe id="attractionVideo" class="mvideo-frame" style="display:none;" frameborder="0"
+        allow="autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
+    </div>
+  </main>
 
 
 
-<script>
-  function showVideo() {
+  <script>
+    function showVideo() {
       const select = document.getElementById('attractionSelect');
       const videoSrc = "https://www.youtube-nocookie.com/embed/" + select.value;
       const videoElement = document.getElementById('attractionVideo');
@@ -121,58 +133,58 @@
       videoElement.src = videoSrc;
       videoElement.style.display = "block";
       placeholderElement.style.display = "none";
-  }
-</script>
+    }
+  </script>
 </body>
 
 
 
-            <!-- 
+<!-- 
     - #FOOTER
   -->
-  <footer class="bg-primary">
+<footer class="bg-primary">
 
-    <div class="pt-5 px-5">
-      <div class="d-flex">
+  <div class="pt-5 px-5">
+    <div class="d-flex">
 
-        <div class="w-75">
-          <img class="w-25" src="./assets/images/logo2.png" alt="EduVentures logo">
-          <p class="text-white w-50">
-            EduVentures blends education with adventure, offering tailored tours that spark curiosity and create lasting
-            memories. Explore with us and make every journey a learning experience. Contact us to start your adventure!
-          </p>
-
-        </div>
-
-
-        <br>
-        <div>
-
-          <h4 class="text-white">Contact Us</h4>
-
-          <p class="text-white">
-            Feel free to contact and reach us !!
-          </p>
-
-          <ul>
-
-            <li class="text-white d-flex">
-              <ion-icon name="call-outline"></ion-icon>
-              <p>+01234 56789</p>
-            </li>
-
-            <li class="text-white d-flex">
-              <ion-icon name="mail-outline"></ion-icon>
-
-              <p>eduventures@gmail.com</p>
-            </li>
-          </ul>
-
-        </div>
+      <div class="w-75">
+        <img class="w-25" src="./assets/images/logo2.png" alt="EduVentures logo">
+        <p class="text-white w-50">
+          EduVentures blends education with adventure, offering tailored tours that spark curiosity and create lasting
+          memories. Explore with us and make every journey a learning experience. Contact us to start your adventure!
+        </p>
 
       </div>
+
+
+      <br>
+      <div>
+
+        <h4 class="text-white">Contact Us</h4>
+
+        <p class="text-white">
+          Feel free to contact and reach us !!
+        </p>
+
+        <ul>
+
+          <li class="text-white d-flex">
+            <ion-icon name="call-outline"></ion-icon>
+            <p>+01234 56789</p>
+          </li>
+
+          <li class="text-white d-flex">
+            <ion-icon name="mail-outline"></ion-icon>
+
+            <p>eduventures@gmail.com</p>
+          </li>
+        </ul>
+
+      </div>
+
     </div>
-  </footer>
+  </div>
+</footer>
 
 
 
@@ -180,17 +192,18 @@
 
 
 
-  <!-- 
+<!-- 
     - custom js link
   -->
-  <script src="./assets/js/script.js"></script>
+<script src="./assets/js/script.js"></script>
 
-  <!-- 
+<!-- 
     - ionicon link
   -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 
 </body>
