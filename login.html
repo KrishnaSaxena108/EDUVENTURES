@@ -267,7 +267,7 @@
             <button type="submit">Begin Your Journey</button>
         </form>
         <div class="toggle-form">
-            <a href="#" id="toggleForm">Already an explorer? Sign In</a>
+            <a href="/login" id="toggleForm">Already an explorer? Sign In</a>
         </div>
         <div class="back-to-home">
             <button onclick="goToHome()">Back to Home</button>
@@ -304,7 +304,7 @@
         }
 
         function goToHome() {
-            window.location.href = 'index.html';
+            window.location.href = '/';
         }
 
         toggleFormLink.addEventListener('click', (e) => {
@@ -335,7 +335,7 @@
                     showPopup(welcomeMessage, 'welcome');
                     console.log('Logged in user:', user);
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = '/';
                     }, 2000);
                 } else {
                     const emailExists = users.some(u => u.email === userData.email);
