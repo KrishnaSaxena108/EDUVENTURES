@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EduVentures</title>
+    <title>Sign Up - EduVentures</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Permanent+Marker&display=swap"
         rel="stylesheet">
@@ -78,6 +78,8 @@
             width: 100%;
             max-width: 520px;
             /* Increased from 450px for better proportion */
+            min-height: 600px;
+            /* Added min-height to prevent shifting */
             padding: 3rem;
             position: relative;
             transition: var(--transition);
@@ -86,6 +88,8 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             margin: 0 auto;
             /* Center container */
+            display: flex;
+            flex-direction: column;
         }
 
         .container:hover {
@@ -154,6 +158,8 @@
             z-index: 1;
             width: 100%;
             /* Ensure form takes full width */
+            flex: 1;
+            /* Allow form to grow */
         }
 
         .input-group {
@@ -223,37 +229,40 @@
             color: var(--primary);
         }
 
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-            /* Allow wrapping on small screens */
-            gap: 0.5rem;
-            /* Add gap for when items wrap */
+        .password-strength {
+            height: 5px;
+            margin-top: 8px;
+            border-radius: 5px;
+            background-color: #ddd;
+            position: relative;
+            overflow: hidden;
         }
 
-        .remember-me {
-            display: flex;
-            align-items: center;
+        .password-strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease;
         }
 
-        .remember-me input {
-            width: auto;
-            margin-right: 0.5rem;
+        .weak {
+            background-color: var(--error);
+            width: 33.33%;
         }
 
-        .forgot-password {
-            color: var(--primary);
-            text-decoration: none;
-            transition: var(--transition);
+        .medium {
+            background-color: orange;
+            width: 66.66%;
         }
 
-        .forgot-password:hover {
-            color: var(--accent);
-            text-decoration: underline;
+        .strong {
+            background-color: var(--success);
+            width: 100%;
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            text-align: right;
         }
 
         button {
@@ -336,6 +345,8 @@
             margin-top: 2rem;
             width: 100%;
             /* Ensure takes full width */
+            position: relative;
+            /* Ensure it stays in place */
         }
 
         .back-to-home button {
@@ -526,10 +537,8 @@
             animation-delay: 0.2s;
         }
 
-        .remember-forgot {
-            animation: fadeInUp 0.5s ease forwards;
+        .input-group:nth-child(3) {
             animation-delay: 0.3s;
-            opacity: 0;
         }
 
         button {
@@ -544,11 +553,29 @@
             animation-delay: 0.6s;
         }
 
+        /* Loading animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         /* Responsive Design - Enhanced */
         @media (max-width: 768px) {
             .container {
                 padding: 2.5rem;
                 max-width: 90%;
+                min-height: 580px;
             }
         }
 
@@ -561,15 +588,11 @@
                 padding: 2rem 1.5rem;
                 max-width: 100%;
                 margin: 1rem;
+                min-height: 550px;
             }
 
             h1 {
                 font-size: 2rem;
-            }
-
-            .remember-forgot {
-                flex-direction: column;
-                align-items: flex-start;
             }
 
             .social-login p::before,
@@ -592,6 +615,7 @@
 
             .container {
                 margin: 2rem auto;
+                min-height: 480px;
             }
         }
     </style>
@@ -606,8 +630,18 @@
         <div class="logo">
             <img src="favicon.svg" alt="EduVentures Logo" />
         </div>
-        <h1>Welcome Back</h1>
-        <form id="loginForm">
+        <h1>Join the Adventure</h1>
+
+        <form id="signupForm">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <div class="input-field">
+                    <input type="text" id="name" name="name" required>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="validation-message">Please enter your full name</div>
+            </div>
+
             <div class="input-group">
                 <label for="email">Email</label>
                 <div class="input-field">
@@ -616,6 +650,7 @@
                 </div>
                 <div class="validation-message">Please enter a valid email address</div>
             </div>
+
             <div class="input-group">
                 <label for="password">Password</label>
                 <div class="input-field">
@@ -623,27 +658,24 @@
                     <i class="fas fa-lock input-icon"></i>
                     <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
                 </div>
-                <div class="validation-message">Password must be at least 6 characters</div>
-            </div>
-
-            <div class="remember-forgot">
-                <div class="remember-me">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">Remember me</label>
+                <div class="password-strength">
+                    <div class="password-strength-meter"></div>
                 </div>
-                <a href="#" class="forgot-password">Forgot Password?</a>
+                <div class="strength-text"></div>
+                <div class="validation-message">Password must be at least 8 characters</div>
             </div>
 
-            <button type="submit" id="loginButton">
-                <span>Continue Adventure</span>
+            <button type="submit" id="signupButton">
+                <span>Begin Your Journey</span>
             </button>
         </form>
+
         <div class="toggle-form">
-            <a href="/signup">New explorer? Sign Up</a>
+            <a href="/login">Already an explorer? Sign In</a>
         </div>
 
         <div class="social-login">
-            <p>Or continue with</p>
+            <p>Or sign up with</p>
             <div class="social-icons">
                 <div class="social-icon">
                     <i class="fab fa-google"></i>
@@ -707,19 +739,90 @@
             }
         });
 
+        // Password Strength Meter
+        const strengthMeter = document.querySelector('.password-strength-meter');
+        const strengthText = document.querySelector('.strength-text');
+
+        passwordInput.addEventListener('input', () => {
+            const val = passwordInput.value;
+            const passwordGroup = passwordInput.closest('.input-group');
+
+            if (val.length === 0) {
+                strengthMeter.className = 'password-strength-meter';
+                strengthText.textContent = '';
+                return;
+            }
+
+            let strength = 0;
+
+            // Check length
+            if (val.length >= 8) strength += 1;
+
+            // Check for mixed case
+            if (val.match(/[a-z]/) && val.match(/[A-Z]/)) strength += 1;
+
+            // Check for numbers
+            if (val.match(/\d/)) strength += 1;
+
+            // Check for special characters
+            if (val.match(/[^a-zA-Z\d]/)) strength += 1;
+
+            // Update UI based on strength
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthMeter.className = 'password-strength-meter weak';
+                    strengthText.textContent = 'Weak';
+                    strengthText.style.color = 'var(--error)';
+                    break;
+                case 2:
+                case 3:
+                    strengthMeter.className = 'password-strength-meter medium';
+                    strengthText.textContent = 'Medium';
+                    strengthText.style.color = 'orange';
+                    break;
+                case 4:
+                    strengthMeter.className = 'password-strength-meter strong';
+                    strengthText.textContent = 'Strong';
+                    strengthText.style.color = 'var(--success)';
+                    break;
+            }
+
+            // Validate password length
+            if (val.length < 8) {
+                passwordGroup.classList.add('error');
+            } else {
+                passwordGroup.classList.remove('error');
+            }
+        });
+
         // Form Validation
-        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
-        const loginButton = document.getElementById('loginButton');
+        const signupButton = document.getElementById('signupButton');
 
         function validateEmail(email) {
             const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         }
 
-        function validatePassword(password) {
-            return password.length >= 6;
+        function validateName(name) {
+            return name.trim().length > 0;
         }
+
+        function validatePassword(password) {
+            return password.length >= 8;
+        }
+
+        nameInput.addEventListener('blur', () => {
+            const nameGroup = nameInput.closest('.input-group');
+            if (!validateName(nameInput.value)) {
+                nameGroup.classList.add('error');
+            } else {
+                nameGroup.classList.remove('error');
+            }
+        });
 
         emailInput.addEventListener('blur', () => {
             const emailGroup = emailInput.closest('.input-group');
@@ -727,15 +830,6 @@
                 emailGroup.classList.add('error');
             } else {
                 emailGroup.classList.remove('error');
-            }
-        });
-
-        passwordInput.addEventListener('blur', () => {
-            const passwordGroup = passwordInput.closest('.input-group');
-            if (!validatePassword(passwordInput.value) && passwordInput.value !== '') {
-                passwordGroup.classList.add('error');
-            } else {
-                passwordGroup.classList.remove('error');
             }
         });
 
@@ -767,54 +861,60 @@
         }
 
         // Form Submission with Loading State
-        loginForm.addEventListener('submit', async (e) => {
+        signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const name = nameInput.value;
             const email = emailInput.value;
             const password = passwordInput.value;
 
             // Validate form
+            if (!validateName(name)) {
+                showPopup('Please enter your full name', 'error');
+                return;
+            }
+
             if (!validateEmail(email)) {
                 showPopup('Please enter a valid email address', 'error');
                 return;
             }
 
             if (!validatePassword(password)) {
-                showPopup('Password must be at least 6 characters', 'error');
+                showPopup('Password must be at least 8 characters', 'error');
                 return;
             }
 
             // Show loading state
-            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-            loginButton.disabled = true;
+            signupButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            signupButton.disabled = true;
 
             try {
-                // Send login request to server
-                const response = await fetch('/login', {
+                // Send signup request to server
+                const response = await fetch('/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ name, email, password })
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    showPopup('Login successful! Redirecting...', 'success');
+                    showPopup('Registration successful! Redirecting...', 'success');
                     setTimeout(() => {
                         window.location.href = data.redirect;
                     }, 1500);
                 } else {
-                    showPopup(data.message || 'Login failed. Please try again.', 'error');
-                    loginButton.innerHTML = 'Continue Adventure';
-                    loginButton.disabled = false;
+                    showPopup(data.message || 'Registration failed. Please try again.', 'error');
+                    signupButton.innerHTML = 'Begin Your Journey';
+                    signupButton.disabled = false;
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showPopup('An error occurred. Please try again.', 'error');
-                loginButton.innerHTML = 'Continue Adventure';
-                loginButton.disabled = false;
+                signupButton.innerHTML = 'Begin Your Journey';
+                signupButton.disabled = false;
             }
         });
 

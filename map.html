@@ -5,21 +5,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduVentures</title>
+  <title>Interactive Maps - EduVentures</title>
 
-  <!-- 
-    - favicon
-  -->
+  <!-- favicon -->
   <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
 
-  <!-- 
-    - custom css link
-  -->
+  <!-- custom css link -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
-  <!-- 
-    - google font link
-  -->
+  <!-- google font link -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -27,23 +21,197 @@
     rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
   <style>
+    :root {
+      --primary: #2B65EC;
+      --primary-hover: #5D85E1;
+      --background: #0078B6;
+      --accent: #3A31F5;
+      --text-dark: #333;
+      --text-light: #fff;
+    }
+
     html,
     body {
       font-family: 'Poppins', sans-serif;
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
+
+    /* Map specific styles */
+    main {
+      padding: 80px 20px 60px;
+      background-color: #f8f9fa;
+    }
+
+    .mheading {
+      text-align: center;
+      color: var(--primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      font-family: 'Montserrat', sans-serif;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .mheading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background-color: var(--primary);
+      border-radius: 2px;
+    }
+
+    .mcontrols-container {
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+
+    .mcontrols {
+      background-color: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .mcontrols:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .mcontrols label {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 1.1rem;
+    }
+
+    .mcontrols select {
+      padding: 12px 15px;
+      border: 2px solid #e1e1e1;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+
+    .mcontrols select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 101, 236, 0.2);
+    }
+
+    .mview-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      align-self: center;
+      margin-top: 10px;
+    }
+
+    .mview-button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(43, 101, 236, 0.3);
+    }
+
+    .mvideo-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+    }
+
+    .mvideo-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #777;
+      font-size: 1.2rem;
+      text-align: center;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .mcontrols {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .mcontrols label {
+        flex: 0 0 auto;
+        margin-right: 15px;
+      }
+
+      .mcontrols select {
+        flex: 1;
+      }
+
+      .mview-button {
+        flex: 0 0 auto;
+        margin-left: 15px;
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mheading {
+        font-size: 2rem;
+      }
+    }
+
+    /* Animation for video container */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .mvideo-container {
+      animation: fadeIn 0.5s ease-in-out;
+    }
   </style>
 </head>
 
 <body id="top">
 
-  <!-- 
-    - #HEADER
-  -->
-
-  <header id="revhead" class="d-flex align-items-center flex-column z-4 bg-none" data-header>
+  <!-- #HEADER -->
+  <header id="revhead" class="d-flex align-items-center flex-column z-4" data-header>
     <div class="d-flex align-items-center justify-content-center mt-3">
       <div class="w-25">
         <a href="#">
@@ -82,10 +250,10 @@
             </div>
           </nav>
         </div>
-        <a href="/booknow" class="btn btn-primary ms-auto rounded-pill d-none d-lg-block">BOOK NOW</a>
+        <a href="/booknow" class="btn ms-auto rounded-pill d-none d-lg-block"
+          style="background-color: var(--primary); color: white; border: 1px solid transparent;">BOOK NOW</a>
       </div>
     </div>
-
   </header>
 
   <main>
@@ -93,7 +261,7 @@
     <div class="mcontrols-container">
       <div class="mcontrols">
         <label for="attractionSelect">Choose a Tourist Attraction:</label>
-        <select id="attractionSelect">
+        <select id="attractionSelect" class="form-select">
           <option
             value="mJqaekQsbm4?autoplay=1&color=white&controls=0&disablekb=1&fs=0&modestbranding=1&mute=1&rel=0&start=40">
             Qutub Minar, Delhi</option>
@@ -111,17 +279,67 @@
             Golden Temple, Punjab</option>
         </select>
         <a href="#attractionVideo">
-          <button class="mview-button" onclick="showVideo()">View</button></a>
+          <button class="mview-button" onclick="showVideo()">View</button>
+        </a>
       </div>
     </div>
     <div class="mvideo-container">
-      <div id="videoPlaceholder" class="placeholder">Select an attraction to view the video</div>
+      <div id="videoPlaceholder" class="placeholder">
+        <div>
+          <ion-icon name="videocam-outline" style="font-size: 3rem; margin-bottom: 15px;"></ion-icon>
+          <p>Select an attraction and click 'View' to explore in 360°</p>
+        </div>
+      </div>
       <iframe id="attractionVideo" class="mvideo-frame" style="display:none;" frameborder="0"
         allow="autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
     </div>
   </main>
 
+  <!-- #FOOTER -->
+  <footer class="bg-primary">
+    <div class="pt-5 px-5">
+      <div class="d-flex flex-column flex-md-row">
+        <div class="w-100 w-md-75 mb-4 mb-md-0">
+          <img class="w-25" src="./assets/images/logo2.png" alt="EduVentures logo">
+          <p class="text-white w-100 w-md-50 mt-3">
+            EduVentures blends education with adventure, offering tailored tours that spark curiosity and create lasting
+            memories. Explore with us and make every journey a learning experience. Contact us to start your adventure!
+          </p>
+        </div>
 
+        <div>
+          <h4 class="text-white">Contact Us</h4>
+          <p class="text-white">
+            Feel free to contact and reach us !!
+          </p>
+          <ul class="list-unstyled">
+            <li class="text-white d-flex align-items-center mb-2">
+              <ion-icon name="call-outline" class="me-2"></ion-icon>
+              <p class="m-0">+01234 56789</p>
+            </li>
+            <li class="text-white d-flex align-items-center">
+              <ion-icon name="mail-outline" class="me-2"></ion-icon>
+              <p class="m-0"><a href="mailto:info@eduventures.com"
+                  class="text-white text-decoration-none">info@eduventures.com</a></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="text-center py-3 mt-4" style="background-color: rgba(0,0,0,0.1);">
+      <p class="text-white m-0">© 2024 EduVentures. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- custom js link -->
+  <script src="./assets/js/script.js"></script>
+
+  <!-- ionicon link -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 
   <script>
     function showVideo() {
@@ -135,77 +353,6 @@
       placeholderElement.style.display = "none";
     }
   </script>
-</body>
-
-
-
-<!-- 
-    - #FOOTER
-  -->
-<footer class="bg-primary">
-
-  <div class="pt-5 px-5">
-    <div class="d-flex">
-
-      <div class="w-75">
-        <img class="w-25" src="./assets/images/logo2.png" alt="EduVentures logo">
-        <p class="text-white w-50">
-          EduVentures blends education with adventure, offering tailored tours that spark curiosity and create lasting
-          memories. Explore with us and make every journey a learning experience. Contact us to start your adventure!
-        </p>
-
-      </div>
-
-
-      <br>
-      <div>
-
-        <h4 class="text-white">Contact Us</h4>
-
-        <p class="text-white">
-          Feel free to contact and reach us !!
-        </p>
-
-        <ul>
-
-          <li class="text-white d-flex">
-            <ion-icon name="call-outline"></ion-icon>
-            <p>+01234 56789</p>
-          </li>
-
-          <li class="text-white d-flex">
-            <ion-icon name="mail-outline"></ion-icon>
-
-            <p>eduventures@gmail.com</p>
-          </li>
-        </ul>
-
-      </div>
-
-    </div>
-  </div>
-</footer>
-
-
-
-
-
-
-
-<!-- 
-    - custom js link
-  -->
-<script src="./assets/js/script.js"></script>
-
-<!-- 
-    - ionicon link
-  -->
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-
 </body>
 
 </html>

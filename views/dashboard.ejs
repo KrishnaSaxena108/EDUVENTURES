@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <style>
+        :root {
+            --primary: hsl(230, 57%, 51%);
+            --primary-hover: hsl(214, 56%, 58%);
+            --primary-light: hsla(230, 57%, 51%, 0.1);
+            --primary-dark: hsl(230, 57%, 41%);
+            --background: hsl(197, 100%, 36%);
+            --accent: hsl(243, 91%, 47%);
+            --error: hsl(0, 100%, 50%);
+            --success: hsl(120, 100%, 25%);
+            --text-dark: hsl(230, 13%, 20%);
+            --text-light: hsl(0, 0%, 100%);
+            --text-muted: hsl(230, 13%, 40%);
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+            /* Light Theme Default */
+            --bg-main: hsl(0, 0%, 100%);
+            --bg-surface: hsl(0, 0%, 98%);
+            --text-color: var(--text-dark);
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Dark Theme */
+        .dark-mode {
+            --bg-main: hsl(230, 13%, 10%);
+            --bg-surface: hsl(230, 13%, 15%);
+            --text-color: var(--text-light);
+            --card-bg: rgba(30, 30, 40, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-surface);
+            color: var(--text-color);
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            filter: brightness(0) invert(1);
+        }
+
+        .site-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-greeting {
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--primary);
+        }
+
+        .avatar-icon {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .profile-email {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-details {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--primary-light);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .trips-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .trips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .trip-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .trip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .trip-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .trip-details {
+            padding: 1.5rem;
+        }
+
+        .trip-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .trip-location,
+        .trip-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .empty-trips {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        .footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .dashboard-title {
+                font-size: 2rem;
+            }
+
+            .trips-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .user-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .dashboard-title {
+                font-size: 1.75rem;
+            }
+
+            .trips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-toggle {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Animation for page elements */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-card,
+        .trip-card,
+        .dashboard-header {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .profile-card {
+            animation-delay: 0.1s;
+        }
+
+        .dashboard-header {
+            animation-delay: 0.2s;
+        }
+
+        .trip-card:nth-child(1) {
+            animation-delay: 0.3s;
+        }
+
+        .trip-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .trip-card:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="../favicon.svg" alt="EduVentures Logo" class="logo">
+            <span class="site-title">EduVentures</span>
+        </div>
+        <div class="user-nav">
+            <span class="user-greeting">Welcome, <%= user.name %></span>
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Your Adventure Dashboard</h1>
+            <p class="dashboard-subtitle">Manage your trips and explore new destinations</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <i class="fas fa-user avatar-icon"></i>
+                </div>
+                <h2 class="profile-name">
+                    <%= user.name %>
+                </h2>
+                <p class="profile-email">
+                    <%= user.email %>
+                </p>
+
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Age</span>
+                        <span class="detail-value">
+                            <%= user.age %>
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value">
+                            <%= user.location %>
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Visited Places</span>
+                        <span class="detail-value">
+                            <%= user.visitedPlaces.length %>
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Upcoming Trips</span>
+                        <span class="detail-value">
+                            <%= user.upcomingTrips.length %>
+                        </span>
+                    </div>
+                </div>
+
+                <a href="/booknow" class="cta-button">
+                    <i class="fas fa-plus"></i> Book New Trip
+                </a>
+            </div>
+
+            <div class="trips-section">
+                <div>
+                    <h3 class="section-title">Upcoming Trips</h3>
+                    <% if (user.upcomingTrips && user.upcomingTrips.length> 0) { %>
+                        <div class="trips-grid">
+                            <% user.upcomingTrips.forEach(trip=> { %>
+                                <div class="trip-card">
+                                    <img src="<%= trip.image %>" alt="<%= trip.name %>" class="trip-image">
+                                    <div class="trip-details">
+                                        <h4 class="trip-name">
+                                            <%= trip.name %>
+                                        </h4>
+                                        <p class="trip-location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <%= trip.location %>
+                                        </p>
+                                        <p class="trip-date">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <%= new Date(trip.date).toLocaleDateString('en-US', { year: 'numeric' ,
+                                                month: 'long' , day: 'numeric' }) %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% }); %>
+                        </div>
+                        <% } else { %>
+                            <div class="empty-trips">
+                                <p>You don't have any upcoming trips.</p>
+                                <a href="/booknow" class="cta-button">Book Your First Adventure</a>
+                            </div>
+                            <% } %>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Places You've Visited</h3>
+                    <% if (user.visitedPlaces && user.visitedPlaces.length> 0) { %>
+                        <div class="trips-grid">
+                            <% user.visitedPlaces.forEach(place=> { %>
+                                <div class="trip-card">
+                                    <img src="<%= place.image %>" alt="<%= place.name %>" class="trip-image">
+                                    <div class="trip-details">
+                                        <h4 class="trip-name">
+                                            <%= place.name %>
+                                        </h4>
+                                        <p class="trip-location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <%= place.location %>
+                                        </p>
+                                        <p class="trip-date">
+                                            <i class="fas fa-calendar-check"></i>
+                                            <%= new Date(place.date).toLocaleDateString('en-US', { year: 'numeric' ,
+                                                month: 'long' , day: 'numeric' }) %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% }); %>
+                        </div>
+                        <% } else { %>
+                            <div class="empty-trips">
+                                <p>You haven't visited any places yet.</p>
+                                <a href="/tours" class="cta-button">Explore Destinations</a>
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <footer class="footer">
+        <p>&copy; <%= new Date().getFullYear() %> EduVentures. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+    </script>
+</body>
+
+</html>

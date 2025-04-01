@@ -4,4 +4,6 @@ node_modules/
 # dependencies
 package-lock.json
 package.json
-vercel.json
+
+# data
+data/
