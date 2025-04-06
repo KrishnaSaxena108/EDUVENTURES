@@ -36,7 +36,7 @@ html {
 \*-----------------------------------*/
 
 .hero {
-  background-image: url("../images/banner2.jpg");
+  background-image: url("../assets/images/banner2.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -55,7 +55,7 @@ html {
 
 
 #revhead {
-  background-image: url("../images/banner2.jpg");
+  background-image: url("../assets/images/banner2.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

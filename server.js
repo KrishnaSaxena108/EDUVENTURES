@@ -20,7 +20,7 @@ app.use(session({
   secret: 'eduventures-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 3600000 } // 1 hour
+  cookie: { maxAge: 3600000 }
 }));
 
 // Middleware to check if user is logged in
@@ -38,29 +38,27 @@ const getUsersData = () => {
     const data = fs.readFileSync(path.join(__dirname, 'data', 'users.json'), 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    // If file doesn't exist or is invalid, return empty array
     return [];
   }
 };
 
 // Function to write users data
 const saveUsersData = (users) => {
-  // Ensure data directory exists
   const dataDir = path.join(__dirname, 'data');
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir);
   }
 
   fs.writeFileSync(
-    path.join(__dirname, 'data', 'users.json'),
+    path.join(dataDir, 'users.json'),
     JSON.stringify(users, null, 2)
   );
 };
 
-// Serve static files from the root directory
-app.use(express.static(__dirname));
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes for each page - supporting both with and without .html extension
+// Routes for each page (now served from 'public' folder)
 const pages = [
   { route: '/', file: 'index.html' },
   { route: '/tours', file: 'tours.html' },
@@ -70,13 +68,9 @@ const pages = [
   { route: '/booknow', file: 'booknow.html' }
 ];
 
-// Create routes for each page
 pages.forEach(page => {
-  // Route without .html extension
   app.get(page.route, (req, res) => {
-    const filePath = path.join(__dirname, page.file);
-
-    // Check if file exists
+    const filePath = path.join(__dirname, 'public', page.file);
     if (fs.existsSync(filePath)) {
       res.sendFile(filePath);
     } else {
@@ -85,7 +79,6 @@ pages.forEach(page => {
     }
   });
 
-  // Also support routes with .html extension for backward compatibility
   if (page.route !== '/') {
     app.get(`${page.route}.html`, (req, res) => {
       res.redirect(page.route);
@@ -98,7 +91,7 @@ app.get('/login', (req, res) => {
   if (req.session.user) {
     return res.redirect('/dashboard');
   }
-  res.sendFile(path.join(__dirname, 'login.html'));
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 // Signup route
@@ -106,7 +99,7 @@ app.get('/signup', (req, res) => {
   if (req.session.user) {
     return res.redirect('/dashboard');
   }
-  res.sendFile(path.join(__dirname, 'signup.html'));
+  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
 });
 
 // Login form submission
@@ -117,14 +110,10 @@ app.post('/login', (req, res) => {
     return res.status(400).json({ success: false, message: 'Email and password are required' });
   }
 
-  // Get users from JSON file
   const users = getUsersData();
-
-  // Find user with matching email and password
   const user = users.find(u => u.email === email && u.password === password);
 
   if (user) {
-    // Set user in session
     req.session.user = {
       id: user.id,
       name: user.name,
@@ -158,7 +147,6 @@ app.post('/login', (req, res) => {
     return res.json({ success: true, redirect: '/dashboard' });
   }
 
-  // If login fails
   return res.status(401).json({ success: false, message: 'Invalid email or password' });
 });
 
@@ -170,10 +158,8 @@ app.post('/signup', (req, res) => {
     return res.status(400).json({ success: false, message: 'All fields are required' });
   }
 
-  // Get users from JSON file
   const users = getUsersData();
 
-  // Check if email already exists
   if (users.some(user => user.email === email)) {
     return res.status(400).json({
       success: false,
@@ -181,23 +167,20 @@ app.post('/signup', (req, res) => {
     });
   }
 
-  // Create new user
   const newUser = {
     id: Date.now().toString(),
     name,
     email,
     password,
-    age: 28, // Default age
-    location: 'New Delhi', // Default location
+    age: 28,
+    location: 'New Delhi',
     visitedPlaces: [],
     upcomingTrips: []
   };
 
-  // Add user to array and save to file
   users.push(newUser);
   saveUsersData(users);
 
-  // Set user in session
   req.session.user = {
     id: newUser.id,
     name: newUser.name,
@@ -211,7 +194,7 @@ app.post('/signup', (req, res) => {
   return res.json({ success: true, redirect: '/dashboard' });
 });
 
-// Dashboard route - protected by authentication
+// Dashboard route
 app.get('/dashboard', isAuthenticated, (req, res) => {
   res.render('dashboard', {
     user: req.session.user,
@@ -219,29 +202,25 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
   });
 });
 
-// Logout route
+// Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
 
-// Handle form submissions from contact page
+// Contact form
 app.post('/contact', (req, res) => {
   console.log('Contact form submission:', req.body);
-  // In a real app, you would process the form data here
-  // For now, just redirect back to the contact page
   res.redirect('/contact?success=true');
 });
 
-// Handle booking form submissions
+// Booking form
 app.post('/book', (req, res) => {
   console.log('Booking form submission:', req.body);
-  // In a real app, you would process the booking here
-  // For now, just redirect to a thank you page or home
   res.redirect('/?booking=success');
 });
 
-// Handle 404 errors
+// 404 Page
 app.use((req, res) => {
   console.log(`404 Not Found: ${req.originalUrl}`);
   res.status(404).send(`
@@ -288,27 +267,25 @@ app.use((req, res) => {
   `);
 });
 
-// Error handling middleware
+// General error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke! Please try again later.');
 });
 
-// Start the server
+// Server start
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
 console.log('Express server configured with the following routes:');
-pages.forEach(page => {
-  console.log(`- ${page.route}`);
-});
+pages.forEach(page => console.log(`- ${page.route}`));
 console.log('- /login');
 console.log('- /signup');
 console.log('- /dashboard (protected)');
 console.log('- /logout');
 
-// Create initial users.json file if it doesn't exist
+// Create initial users.json if not exists
 const dataDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir);
@@ -316,7 +293,6 @@ if (!fs.existsSync(dataDir)) {
 
 const usersFilePath = path.join(dataDir, 'users.json');
 if (!fs.existsSync(usersFilePath)) {
-  // Create initial users file with a demo user
   const initialUsers = [
     {
       id: '1',
