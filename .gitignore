@@ -1,10 +1,6 @@
 # Node.js dependencies
 node_modules/
 
-# dependencies
-package-lock.json
-package.json
-
 # data
 data/
 
