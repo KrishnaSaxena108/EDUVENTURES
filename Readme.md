@@ -1,5 +1,5 @@
 # EduVentures 🌍✈️📚
-![EduVentures Logo](/favicon.svg?height=200&width=200)
+![Screenshot 2025-04-06 160524](https://github.com/user-attachments/assets/63d524b9-8bf0-4be9-8bae-48ea4c90e44a)
 
 **Discover. Learn. Explore.**
 
@@ -21,20 +21,19 @@ EduVentures is your gateway to affordable educational tours that blend the excit
 ![Screenshot 2025-04-03 215421](https://github.com/user-attachments/assets/cc5a4d41-d727-4b32-b27a-fcb6f1360749)
 
 ### Home Page
-![Home Page](/assets/images/Home.png?height=300&width=500)
+![Home](https://github.com/user-attachments/assets/f59c4b0f-2a9c-48cb-910e-305f12b1714b)
 
 ### Tour Page
-![Tour Page](/assets/images/Tour.png?height=300&width=500)
+![Tour](https://github.com/user-attachments/assets/bd13f368-1cd7-459e-8e92-6af9dfcbdc89)
 
 ### Review Page
-![Review Page](/assets/images/Review.png?height=300&width=500)
+![Review](https://github.com/user-attachments/assets/5281ff76-18d4-4647-8586-abd57f20508c)
 
 ### Interactive Map
-![Interactive Map](/assets/images/Map.png?height=300&width=500)
+![Map](https://github.com/user-attachments/assets/3a6ce71a-b5e9-4410-9c7f-29393f12da32)
 
 ### Dark Mode Login & Signup
 ![image](https://github.com/user-attachments/assets/43077181-99ec-45b3-92da-aa6147eeb85c)
-
 
 ## 🤖 Technologies Used
 
