@@ -226,41 +226,85 @@ app.use((req, res) => {
   res.status(404).send(`
     <html>
       <head>
-        <title>Page Not Found - EduVentures</title>
+        <title>404 - Page Not Found | EduVentures</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
         <style>
-          body {
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
+          html, body {
+            height: 100%;
+            width: 100%;
             font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #eaf6ff, #d6e6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+          }
+
+          .wrapper {
             text-align: center;
-            padding: 50px;
-            background: #f8f9fa;
-          }
-          h1 {
-            color: #0d6efd;
-          }
-          .container {
+            background: #ffffff;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
             max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 90%;
+            animation: fadeIn 0.7s ease;
           }
+
+          h1 {
+            font-size: 60px;
+            color: #0d6efd;
+            margin-bottom: 20px;
+          }
+
+          p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+          }
+
           .btn {
             display: inline-block;
-            background: #0d6efd;
+            background-color: #0d6efd;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 28px;
+            font-size: 16px;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.2s ease;
+          }
+
+          .btn:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+          }
+
+          @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+          }
+
+          @media (max-width: 480px) {
+            h1 {
+              font-size: 42px;
+            }
+            .wrapper {
+              padding: 40px 20px;
+            }
           }
         </style>
       </head>
       <body>
-        <div class="container">
-          <h1>Page Not Found</h1>
-          <p>We're sorry, but the page you were looking for doesn't exist.</p>
-          <a href="/" class="btn">Return to Home</a>
+        <div class="wrapper">
+          <h1>404</h1>
+          <p>Oops! The page you’re looking for doesn’t exist.</p>
+          <a href="/" class="btn">Back to Home</a>
         </div>
       </body>
     </html>
