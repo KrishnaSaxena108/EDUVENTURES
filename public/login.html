@@ -24,6 +24,7 @@
             --text-dark: hsl(230, 13%, 20%);
             --text-light: hsl(0, 0%, 100%);
             --text-muted: hsl(230, 13%, 40%);
+            --highlight-color: #4D8CF5;
             --border-radius: 12px;
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -594,6 +595,292 @@
                 margin: 2rem auto;
             }
         }
+
+        /* ===== CHATBOT WIDGET STYLES ===== */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Chatbot Toggle Button */
+        .chatbot-toggle {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--highlight-color), #6B9EFF);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(77, 140, 245, 0.4);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .chatbot-toggle:hover::before {
+            transform: translateX(100%);
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(77, 140, 245, 0.5);
+        }
+
+        .chatbot-toggle.active {
+            background: linear-gradient(135deg, var(--secondary-background), var(--primary-background));
+        }
+
+        /* Chat Icon */
+        .chat-icon {
+            width: 32px;
+            height: 32px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-toggle.active .chat-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Chatbot Container */
+        .chatbot-container {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 400px;
+            height: 550px;
+            background: linear-gradient(135deg, var(--primary-background), var(--secondary-background));
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transform: translateY(20px) scale(0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(77, 140, 245, 0.3);
+            overflow: hidden;
+        }
+
+        .chatbot-container.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Chatbot Header */
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--highlight-color), #6B9EFF);
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .chatbot-header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chatbot-avatar {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .chatbot-avatar svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .chatbot-details h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .chatbot-details p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            margin: 2px 0 0 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4AFF4A;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.2);
+            }
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .close-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* Chatbot Content Area */
+        .chatbot-content {
+            height: calc(100% - 80px);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Botpress iframe styling */
+        .botpress-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0 0 20px 20px;
+            background: transparent;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .chatbot-widget {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .chatbot-container {
+                width: calc(100vw - 30px);
+                height: 70vh;
+                bottom: 80px;
+                right: -10px;
+            }
+
+            .chatbot-toggle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .chat-icon {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #FF4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Hide Botpress branding and adjust styling */
+        .chatbot-container iframe {
+            border-radius: 0 0 20px 20px;
+        }
     </style>
 </head>
 
@@ -663,6 +950,44 @@
     </div>
 
     <div id="popup" class="popup"></div>
+
+    <!-- ===== CHATBOT WIDGET ===== -->
+    <div class="chatbot-widget">
+        <!-- Chatbot Container (Hidden by default) -->
+        <div class="chatbot-container" id="chatbot-container">
+            <!-- Chatbot Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-header-content">
+                    <div class="chatbot-info">
+                        <div class="chatbot-details">
+                            <h3>EduVentures Assistant</h3>
+                            <p><span class="status-dot"></span> Online now</p>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick="toggleChatbot()">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chatbot Content - Botpress Integration -->
+            <div class="chatbot-content">
+                <iframe class="botpress-iframe"
+                    src="https://cdn.botpress.cloud/webchat/v2.4/shareable.html?configUrl=https://files.bpcontent.cloud/2025/04/20/16/20250420161944-WK73YIAY.json"
+                    title="EduVentures Chatbot" allow="microphone; camera" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Chatbot Toggle Button -->
+        <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChatbot()">
+            <span class="notification-badge" id="notification-badge">1</span>
+            <img src="assets/images/favicon.svg" alt="EduVentures Assistant Avatar" height="65" width="65">
+        </button>
+    </div>
 
     <script>
         // Theme Toggle Functionality
@@ -855,6 +1180,99 @@
             input.addEventListener('blur', () => {
                 document.querySelector('.container').classList.remove('input-active');
             });
+        });
+    </script>
+
+    <script>
+        // ===== CHATBOT CONFIGURATION =====
+        const CHATBOT_ENABLED = true; // Set to false to disable chatbot
+
+        // Initialize chatbot
+        initializeChatbot();
+        ;
+
+        // ===== CHATBOT FUNCTIONALITY =====
+        let isChatbotOpen = false;
+
+        function initializeChatbot() {
+            const chatbotWidget = document.querySelector('.chatbot-widget');
+
+            if (!CHATBOT_ENABLED) {
+                chatbotWidget.style.display = 'none';
+                return;
+            }
+
+            // Show notification badge after 5 seconds
+            setTimeout(() => {
+                if (!isChatbotOpen) {
+                    const badge = document.getElementById('notification-badge');
+                    if (badge) {
+                        badge.style.animation = 'bounce 1s infinite';
+                    }
+                }
+            }, 5000);
+
+            // Auto-hide notification badge after 30 seconds
+            setTimeout(() => {
+                const badge = document.getElementById('notification-badge');
+                if (badge && !isChatbotOpen) {
+                    badge.style.display = 'none';
+                }
+            }, 30000);
+        }
+
+        function toggleChatbot() {
+            if (!CHATBOT_ENABLED) return;
+
+            const container = document.getElementById('chatbot-container');
+            const toggle = document.getElementById('chatbot-toggle');
+            const badge = document.getElementById('notification-badge');
+
+            isChatbotOpen = !isChatbotOpen;
+
+            container.classList.toggle('active', isChatbotOpen);
+            toggle.classList.toggle('active', isChatbotOpen);
+
+            // Hide notification badge when opened
+            if (isChatbotOpen && badge) {
+                badge.style.display = 'none';
+            }
+
+            // Add analytics tracking (optional)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', isChatbotOpen ? 'chatbot_opened' : 'chatbot_closed', {
+                    'event_category': 'engagement',
+                    'event_label': 'chatbot_interaction'
+                });
+            }
+        }
+
+        // Close chatbot when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!CHATBOT_ENABLED) return;
+
+            const chatbotWidget = document.querySelector('.chatbot-widget');
+            if (!chatbotWidget.contains(event.target) && isChatbotOpen) {
+                toggleChatbot();
+            }
+        });
+
+        // Handle escape key to close chatbot
+        document.addEventListener('keydown', function (event) {
+            if (!CHATBOT_ENABLED) return;
+
+            if (event.key === 'Escape' && isChatbotOpen) {
+                toggleChatbot();
+            }
+        });
+
+        // Handle iframe load events
+        window.addEventListener('message', function (event) {
+            // Handle messages from Botpress iframe if needed
+            if (event.origin === 'https://cdn.botpress.cloud') {
+                // You can handle specific events from the chatbot here
+                console.log('Chatbot message:', event.data);
+            }
         });
     </script>
 </body>
