@@ -4,45 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <title>EduVentures - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="../public/assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="./assets/images/favicon.svg" type="image/svg+xml">
     <style>
         :root {
-            --primary: hsl(230, 57%, 51%);
-            --primary-hover: hsl(214, 56%, 58%);
-            --primary-light: hsla(230, 57%, 51%, 0.1);
-            --primary-dark: hsl(230, 57%, 41%);
-            --background: hsl(197, 100%, 36%);
-            --accent: hsl(243, 91%, 47%);
-            --error: hsl(0, 100%, 50%);
-            --success: hsl(120, 100%, 25%);
-            --text-dark: hsl(230, 13%, 20%);
-            --text-light: hsl(0, 0%, 100%);
-            --text-muted: hsl(230, 13%, 40%);
-            --border-radius: 12px;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.2);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-            /* Light Theme Default */
-            --bg-main: hsl(0, 0%, 100%);
-            --bg-surface: hsl(0, 0%, 98%);
-            --text-color: var(--text-dark);
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --secondary-highlight: #6B9EFF;
+            --accent: #0f3460;
+            --text-primary: #ffffff;
+            --text-secondary: #b8bcc8;
+            --text-muted: #8892b0;
+            --surface: #0d1421;
+            --surface-light: rgba(107, 158, 255, 0.1);
+            --border: rgba(107, 158, 255, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 48px rgba(107, 158, 255, 0.15);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Dark Theme */
-        .dark-mode {
-            --bg-main: hsl(230, 13%, 10%);
-            --bg-surface: hsl(230, 13%, 15%);
-            --text-color: var(--text-light);
-            --card-bg: rgba(30, 30, 40, 0.9);
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --primary: #ffffff;
+            --secondary: #f8fafc;
+            --secondary-highlight: #4f46e5;
+            --accent: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --surface: #f9fafb;
+            --surface-light: rgba(79, 70, 229, 0.05);
+            --border: rgba(79, 70, 229, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 48px rgba(79, 70, 229, 0.15);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         }
 
         * {
@@ -52,46 +51,85 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-surface);
-            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
             transition: var(--transition);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(107, 158, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(107, 158, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(107, 158, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] body::before {
+            background:
+                radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(79, 70, 229, 0.03) 0%, transparent 50%);
+        }
+
+        /* Header */
         .header {
-            background-color: var(--primary);
-            color: white;
+            background: var(--gradient);
             padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-md);
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
-        .logo-container {
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
         .logo {
-            width: 50px;
-            height: 50px;
-            filter: brightness(0) invert(1);
-        }
-
-        .site-title {
-            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-highlight);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
             font-weight: 700;
         }
 
-        .user-nav {
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .user-section {
             display: flex;
             align-items: center;
             gap: 1.5rem;
@@ -99,263 +137,389 @@
 
         .user-greeting {
             font-weight: 500;
+            color: var(--text-secondary);
         }
 
         .logout-btn {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
             padding: 0.5rem 1rem;
+            border-radius: 8px;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            text-decoration: none;
         }
 
         .logout-btn:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
+        [data-theme="light"] .logout-btn {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .logout-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .theme-toggle {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: var(--accent);
+        }
+
+        /* Professional theme toggle icons */
+        .theme-toggle {
+            position: relative;
+        }
+
+        .theme-toggle .theme-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle .fa-moon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        }
+
+        .theme-toggle .fa-sun {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8) rotate(90deg);
+        }
+
+        [data-theme="light"] .theme-toggle .fa-moon {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8) rotate(-90deg);
+        }
+
+        [data-theme="light"] .theme-toggle .fa-sun {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        }
+
+        /* Main Content */
         .main-content {
-            flex: 1;
-            padding: 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            width: 100%;
+            padding: 2rem;
         }
 
         .dashboard-header {
-            margin-bottom: 2rem;
             text-align: center;
+            margin-bottom: 3rem;
         }
 
         .dashboard-title {
-            font-size: 2.5rem;
-            color: var(--primary);
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--secondary-highlight), #4a90e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 0.5rem;
         }
 
         .dashboard-subtitle {
-            color: var(--text-muted);
             font-size: 1.1rem;
+            color: var(--text-muted);
         }
 
+        /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 350px 1fr;
             gap: 2rem;
+            margin-bottom: 3rem;
         }
 
+        /* Profile Card */
         .profile-card {
-            background-color: var(--card-bg);
+            background: var(--gradient);
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
             padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
             transition: var(--transition);
+            height: fit-content;
         }
 
         .profile-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
         }
 
         .profile-avatar {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
+            background: var(--secondary-highlight);
             border-radius: 50%;
-            background-color: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            border: 3px solid var(--primary);
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 24px rgba(107, 158, 255, 0.3);
         }
 
         .avatar-icon {
-            font-size: 3rem;
-            color: var(--primary);
+            font-size: 2.5rem;
+            color: white;
         }
 
         .profile-name {
             font-size: 1.5rem;
             font-weight: 600;
+            text-align: center;
             margin-bottom: 0.5rem;
-            color: var(--primary);
+            color: var(--text-primary);
         }
 
         .profile-email {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
         }
 
-        .profile-details {
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .stat-item {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-highlight);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button {
             width: 100%;
-            margin-top: 1rem;
-        }
-
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--primary-light);
-        }
-
-        .detail-item:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .detail-value {
+            background: var(--secondary-highlight);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
         }
 
-        .trips-section {
+        .cta-button:hover {
+            background: #5a8ff0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(107, 158, 255, 0.4);
+        }
+
+        /* Trips Section */
+        .trips-container {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
         .section-title {
             font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 3px;
-            background: var(--primary);
-            bottom: -5px;
-            left: 0;
-            border-radius: 2px;
+        .section-count {
+            background: var(--secondary-highlight);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
+        /* Trip Cards */
         .trips-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
         }
 
         .trip-card {
-            background-color: var(--card-bg);
+            background: var(--gradient);
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
             overflow: hidden;
+            border: 1px solid var(--border);
             transition: var(--transition);
+            box-shadow: var(--shadow);
         }
 
         .trip-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
         }
 
         .trip-image {
             width: 100%;
-            height: 180px;
+            height: 200px;
+            object-fit: cover;
+            background: var(--surface-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 3rem;
+        }
+
+        .trip-image img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
-        .trip-details {
+        .trip-content {
             padding: 1.5rem;
         }
 
         .trip-name {
             font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
+            color: var(--text-primary);
+            margin-bottom: 1rem;
         }
 
-        .trip-location,
-        .trip-date {
+        .trip-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .trip-detail {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
+            gap: 0.75rem;
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
-        .empty-trips {
-            background-color: var(--card-bg);
+        .trip-detail i {
+            color: var(--secondary-highlight);
+            width: 16px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: var(--gradient);
+            border: 2px dashed var(--border);
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 3rem;
             text-align: center;
             color: var(--text-muted);
+            transition: var(--transition);
         }
 
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-highlight);
+        }
+
+        .empty-title {
+            font-size: 1.2rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
         }
 
-        .cta-button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .empty-text {
+            margin-bottom: 1.5rem;
         }
 
-        .theme-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 100;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(30deg);
-        }
-
+        /* Footer */
         .footer {
-            background-color: var(--primary-dark);
-            color: white;
-            padding: 1rem;
+            background: var(--primary);
+            padding: 2rem;
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
         }
 
         /* Responsive Design */
-        @media (max-width: 992px) {
+        @media (max-width: 1024px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
@@ -367,52 +531,55 @@
 
         @media (max-width: 768px) {
             .main-content {
-                padding: 1.5rem;
+                padding: 1rem;
             }
 
             .dashboard-title {
                 font-size: 2rem;
             }
 
-            .trips-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            }
-        }
-
-        @media (max-width: 576px) {
-            .header {
-                flex-direction: column;
-                padding: 1rem;
+            .header-content {
+                flex-wrap: wrap;
                 gap: 1rem;
             }
 
-            .user-nav {
-                width: 100%;
-                justify-content: space-between;
+            .user-section {
+                gap: 1rem;
             }
 
-            .dashboard-title {
-                font-size: 1.75rem;
+            .user-greeting {
+                display: none;
             }
 
             .trips-grid {
                 grid-template-columns: 1fr;
             }
 
-            .theme-toggle {
-                bottom: 10px;
-                right: 10px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
+            .profile-stats {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Animation for page elements */
+        @media (max-width: 480px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .user-section {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
 
             to {
@@ -421,46 +588,49 @@
             }
         }
 
+        .dashboard-header,
         .profile-card,
         .trip-card,
-        .dashboard-header {
-            animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
+        .empty-state {
+            animation: fadeInUp 0.6s ease-out forwards;
         }
 
         .profile-card {
             animation-delay: 0.1s;
         }
 
-        .dashboard-header {
+        .trip-card:nth-child(1) {
             animation-delay: 0.2s;
         }
 
-        .trip-card:nth-child(1) {
+        .trip-card:nth-child(2) {
             animation-delay: 0.3s;
         }
 
-        .trip-card:nth-child(2) {
-            animation-delay: 0.4s;
-        }
-
         .trip-card:nth-child(3) {
-            animation-delay: 0.5s;
+            animation-delay: 0.4s;
         }
     </style>
 </head>
 
 <body>
     <header class="header">
-        <div class="logo-container">
-            <img src="../public/assets/images/favicon.svg" alt="EduVentures Logo" class="logo">
-            <span class="site-title">EduVentures</span>
-        </div>
-        <div class="user-nav">
-            <span class="user-greeting">Welcome, <%= user.name %></span>
-            <a href="/logout" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo"><img src="assets/images/favicon.svg" height="50"></div>
+                <span class="brand-name">EduVentures</span>
+            </div>
+            <div class="user-section">
+                <span class="user-greeting">Welcome, <%= user.name %></span>
+                <button id="themeToggle" class="theme-toggle">
+                    <i class="fas fa-moon theme-icon" aria-hidden="true"></i>
+                    <i class="fas fa-sun theme-icon" aria-hidden="true"></i>
+                </button>
+                <a href="/logout" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
         </div>
     </header>
 
@@ -482,99 +652,138 @@
                     <%= user.email %>
                 </p>
 
-                <div class="profile-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Age</span>
-                        <span class="detail-value">
-                            <%= user.age %>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">
+                            <%= user.visitedPlaces ? user.visitedPlaces.length : 0 %>
                         </span>
+                        <span class="stat-label">Visited Places</span>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Location</span>
-                        <span class="detail-value">
-                            <%= user.location %>
+                    <div class="stat-item">
+                        <span class="stat-number">
+                            <%= user.upcomingTrips ? user.upcomingTrips.length : 0 %>
                         </span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Visited Places</span>
-                        <span class="detail-value">
-                            <%= user.visitedPlaces.length %>
-                        </span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Upcoming Trips</span>
-                        <span class="detail-value">
-                            <%= user.upcomingTrips.length %>
-                        </span>
+                        <span class="stat-label">Upcoming Trips</span>
                     </div>
                 </div>
 
                 <a href="/booknow" class="cta-button">
-                    <i class="fas fa-plus"></i> Book New Trip
+                    <i class="fas fa-plus"></i>
+                    Book New Trip
                 </a>
             </div>
 
-            <div class="trips-section">
+            <div class="trips-container">
                 <div>
-                    <h3 class="section-title">Upcoming Trips</h3>
+                    <div class="section-header">
+                        <h3 class="section-title">Upcoming Trips</h3>
+                        <span class="section-count">
+                            <%= user.upcomingTrips ? user.upcomingTrips.length : 0 %>
+                        </span>
+                    </div>
+
                     <% if (user.upcomingTrips && user.upcomingTrips.length> 0) { %>
                         <div class="trips-grid">
                             <% user.upcomingTrips.forEach(trip=> { %>
                                 <div class="trip-card">
-                                    <img src="<%= trip.image %>" alt="<%= trip.name %>" class="trip-image">
-                                    <div class="trip-details">
-                                        <h4 class="trip-name">
-                                            <%= trip.name %>
-                                        </h4>
-                                        <p class="trip-location">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            <%= trip.location %>
-                                        </p>
-                                        <p class="trip-date">
-                                            <i class="fas fa-calendar-alt"></i>
-                                            <%= new Date(trip.date).toLocaleDateString('en-US', { year: 'numeric' ,
-                                                month: 'long' , day: 'numeric' }) %>
-                                        </p>
-                                    </div>
+                                    <% if (trip.image) { %>
+                                        <img src="<%= trip.image %>" alt="<%= trip.name %>" class="trip-image">
+                                        <% } else { %>
+                                            <div class="trip-image">
+                                                <i class="fas fa-map-marked-alt"></i>
+                                            </div>
+                                            <% } %>
+                                                <div class="trip-content">
+                                                    <h4 class="trip-name">
+                                                        <%= trip.name %>
+                                                    </h4>
+                                                    <div class="trip-details">
+                                                        <div class="trip-detail">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <span>
+                                                                <%= trip.location %>
+                                                            </span>
+                                                        </div>
+                                                        <div class="trip-detail">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                            <span>
+                                                                <%= new Date(trip.date).toLocaleDateString('en-US', {
+                                                                    year: 'numeric' , month: 'long' , day: 'numeric' })
+                                                                    %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                 </div>
                                 <% }); %>
                         </div>
                         <% } else { %>
-                            <div class="empty-trips">
-                                <p>You don't have any upcoming trips.</p>
-                                <a href="/booknow" class="cta-button">Book Your First Adventure</a>
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </div>
+                                <h4 class="empty-title">No Upcoming Trips</h4>
+                                <p class="empty-text">You don't have any upcoming adventures planned yet.</p>
+                                <a href="/booknow" class="cta-button" style="width: auto; padding: 0.75rem 1.5rem;">
+                                    <i class="fas fa-plus"></i>
+                                    Book Your First Adventure
+                                </a>
                             </div>
                             <% } %>
                 </div>
 
                 <div>
-                    <h3 class="section-title">Places You've Visited</h3>
+                    <div class="section-header">
+                        <h3 class="section-title">Places You've Visited</h3>
+                        <span class="section-count">
+                            <%= user.visitedPlaces ? user.visitedPlaces.length : 0 %>
+                        </span>
+                    </div>
+
                     <% if (user.visitedPlaces && user.visitedPlaces.length> 0) { %>
                         <div class="trips-grid">
                             <% user.visitedPlaces.forEach(place=> { %>
                                 <div class="trip-card">
-                                    <img src="<%= place.image %>" alt="<%= place.name %>" class="trip-image">
-                                    <div class="trip-details">
-                                        <h4 class="trip-name">
-                                            <%= place.name %>
-                                        </h4>
-                                        <p class="trip-location">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            <%= place.location %>
-                                        </p>
-                                        <p class="trip-date">
-                                            <i class="fas fa-calendar-check"></i>
-                                            <%= new Date(place.date).toLocaleDateString('en-US', { year: 'numeric' ,
-                                                month: 'long' , day: 'numeric' }) %>
-                                        </p>
-                                    </div>
+                                    <% if (place.image) { %>
+                                        <img src="<%= place.image %>" alt="<%= place.name %>" class="trip-image">
+                                        <% } else { %>
+                                            <div class="trip-image">
+                                                <i class="fas fa-map-marked-alt"></i>
+                                            </div>
+                                            <% } %>
+                                                <div class="trip-content">
+                                                    <h4 class="trip-name">
+                                                        <%= place.name %>
+                                                    </h4>
+                                                    <div class="trip-details">
+                                                        <div class="trip-detail">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <span>
+                                                                <%= place.location %>
+                                                            </span>
+                                                        </div>
+                                                        <div class="trip-detail">
+                                                            <i class="fas fa-calendar-check"></i>
+                                                            <span>Visited: <%= new
+                                                                    Date(place.date).toLocaleDateString('en-US', {
+                                                                    year: 'numeric' , month: 'long' }) %></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                 </div>
                                 <% }); %>
                         </div>
                         <% } else { %>
-                            <div class="empty-trips">
-                                <p>You haven't visited any places yet.</p>
-                                <a href="/tours" class="cta-button">Explore Destinations</a>
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="fas fa-map-marked"></i>
+                                </div>
+                                <h4 class="empty-title">No Places Visited</h4>
+                                <p class="empty-text">You haven't visited any places yet. Start your adventure!</p>
+                                <a href="/tours" class="cta-button" style="width: auto; padding: 0.75rem 1.5rem;">
+                                    <i class="fas fa-compass"></i>
+                                    Explore Destinations
+                                </a>
                             </div>
                             <% } %>
                 </div>
@@ -582,40 +791,50 @@
         </div>
     </main>
 
-    <button id="themeToggle" class="theme-toggle">
-        <i class="fas fa-moon"></i>
-    </button>
-
     <footer class="footer">
-        <p>&copy; <%= new Date().getFullYear() %> EduVentures. All rights reserved.</p>
+        <p class="footer-text">&copy; <%= new Date().getFullYear() %> EduVentures. All rights reserved.</p>
     </footer>
 
     <script>
-        // Theme Toggle Functionality
+        // In-memory theme storage
+        let currentTheme = 'dark';
+
+        // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
+        const body = document.body;
+
+        // Set default theme
+        body.setAttribute('data-theme', currentTheme);
 
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-
-            if (document.body.classList.contains('dark-mode')) {
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'light');
-            }
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', currentTheme);
         });
 
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        }
+        // Add interactive effects to trip cards
+        document.querySelectorAll('.trip-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 
