@@ -526,7 +526,7 @@
         }
 
         .home-button {
-            background:  white !important;
+            background: white !important;
             margin-top: 20px;
             width: 100%;
             color: black !important;
@@ -864,6 +864,58 @@
             display: block;
             animation: slideDown 0.3s ease-out;
         }
+
+        /* Added pricing summary styles */
+        .pricing-summary {
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .pricing-card h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .pricing-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pricing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .total-row {
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            margin-top: 10px;
+            padding-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
@@ -946,34 +998,66 @@
                     </div>
                     <div class="form-group">
                         <label for="destination">Destination *</label>
-                        <select id="destination" name="destination" required>
+                        <select id="destination" name="destination" required onchange="calculateTotal()">
                             <option value="" disabled selected>Select your destination</option>
-                            <option value="RJ-Package">🏰 Rajasthan Tour Package</option>
-                            <option value="DL-Package">🏛️ Delhi Tour Package</option>
-                            <option value="TN-Package">🕉️ Tamil Nadu Tour Package</option>
-                            <option value="Qutub Minar">🗼 Qutub Minar, Delhi</option>
-                            <option value="Amer Fort">🏰 Amer Fort, Rajasthan</option>
-                            <option value="Indian Museum">🏛️ Indian Museum, West Bengal</option>
-                            <option value="Gateway of India">🌊 Gateway of India, Maharashtra</option>
-                            <option value="Kashi Vishwanath Temple">🕉️ Kashi Vishwanath Temple, Uttar Pradesh</option>
-                            <option value="Taj Mahal">🕌 Taj Mahal, Uttar Pradesh</option>
-                            <option value="Jawahar Kala Kendra">🎨 Jawahar Kala Kendra, Rajasthan</option>
-                            <option value="Birla Planetarium">🌟 Birla Planetarium, Chennai</option>
-                            <option value="Golden Temple">🏛️ Golden Temple, Punjab</option>
+                            <option value="RJ-Package" data-price="15000">🏰 Rajasthan Tour Package - ₹15,000/person
+                            </option>
+                            <option value="DL-Package" data-price="12000">🏛️ Delhi Tour Package - ₹12,000/person
+                            </option>
+                            <option value="TN-Package" data-price="18000">🕉️ Tamil Nadu Tour Package - ₹18,000/person
+                            </option>
+                            <option value="Qutub Minar" data-price="2500">🗼 Qutub Minar, Delhi - ₹2,500/person</option>
+                            <option value="Amer Fort" data-price="3000">🏰 Amer Fort, Rajasthan - ₹3,000/person</option>
+                            <option value="Indian Museum" data-price="1500">🏛️ Indian Museum, West Bengal -
+                                ₹1,500/person</option>
+                            <option value="Gateway of India" data-price="2000">🌊 Gateway of India, Maharashtra -
+                                ₹2,000/person</option>
+                            <option value="Kashi Vishwanath Temple" data-price="3500">🕉️ Kashi Vishwanath Temple, Uttar
+                                Pradesh - ₹3,500/person</option>
+                            <option value="Taj Mahal" data-price="4000">🕌 Taj Mahal, Uttar Pradesh - ₹4,000/person
+                            </option>
+                            <option value="Jawahar Kala Kendra" data-price="2200">🎨 Jawahar Kala Kendra, Rajasthan -
+                                ₹2,200/person</option>
+                            <option value="Birla Planetarium" data-price="1800">🌟 Birla Planetarium, Chennai -
+                                ₹1,800/person</option>
+                            <option value="Golden Temple" data-price="2800">🏛️ Golden Temple, Punjab - ₹2,800/person
+                            </option>
                         </select>
                         <div class="error-message">Please select a destination</div>
                     </div>
                     <div class="form-group">
                         <label for="num-people">Number of People *</label>
                         <input type="number" id="num-people" name="num-people" min="1" max="50"
-                            placeholder="Enter number of travelers" required>
+                            placeholder="Enter number of travelers" required onchange="calculateTotal()">
                         <div class="error-message">Please enter number of people</div>
                     </div>
+
                     <div class="form-group">
                         <label for="num-days">Number of Days *</label>
                         <input type="number" id="num-days" name="num-days" min="1" max="30"
-                            placeholder="Enter number of days" required>
+                            placeholder="Enter number of days" readonly onchange="calculateTotal()">
                         <div class="error-message">Please enter number of days</div>
+                    </div>
+
+                    <!-- Added pricing summary section -->
+                    <div class="pricing-summary" id="pricing-summary" style="display: none;">
+                        <div class="pricing-card">
+                            <h3>💰 Booking Summary</h3>
+                            <div class="pricing-details">
+                                <div class="pricing-row">
+                                    <span>Price per person:</span>
+                                    <span id="price-per-person">₹0</span>
+                                </div>
+                                <div class="pricing-row">
+                                    <span>Number of people:</span>
+                                    <span id="total-people">0</span>
+                                </div>
+                                <div class="pricing-row total-row">
+                                    <span><strong>Total Amount:</strong></span>
+                                    <span id="grand-total"><strong>₹0</strong></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -1114,7 +1198,48 @@
         </button>
     </div>
 
+    <!-- Pricing Summary (Grand Total Card) -->
+    <div class="pricing-summary" id="pricing-summary" style="display: none;">
+        <div class="pricing-card">
+            <h3>💰 Booking Summary</h3>
+            <div class="pricing-details">
+                <div class="pricing-row">
+                    <span>Price per person (per day):</span>
+                    <span id="price-per-person">₹0</span>
+                </div>
+                <div class="pricing-row">
+                    <span>Number of people × days:</span>
+                    <span id="total-people">0</span>
+                </div>
+                <div class="pricing-row total-row">
+                    <span><strong>Grand Total:</strong></span>
+                    <span id="grand-total"><strong>₹0</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+
     <script>
+        // Auto-calculate number of days based on start and end date
+        document.getElementById('date-from').addEventListener('change', updateDays);
+        document.getElementById('date-to').addEventListener('change', updateDays);
+
+        function updateDays() {
+            const start = new Date(document.getElementById('date-from').value);
+            const end = new Date(document.getElementById('date-to').value);
+
+            if (start && end && !isNaN(start) && !isNaN(end) && end >= start) {
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                // +1 so if start=end it counts as 1 day
+                document.getElementById('num-days').value = diffDays;
+
+                calculateTotal();
+            }
+        }
+
         let currentStep = 1;
         let isProcessing = false;
 
@@ -1189,7 +1314,7 @@
                 case 'email':
                     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
                 case 'tel':
-                    return /^[\+]?[0-9\s\-\(\)]{10,}$/.test(input.value);
+                    return /^[\+]?[0-9\s\-$$$$]{10,}$/.test(input.value);
                 case 'date':
                     return new Date(input.value) > new Date();
                 default:
@@ -1224,26 +1349,81 @@
             }
         }
 
-        function completeBooking() {
+        function calculateTotal() {
+            const destinationSelect = document.getElementById('destination');
+            const numPeopleInput = document.getElementById('num-people');
+            const numDaysInput = document.getElementById('num-days');
+            const pricingSummary = document.getElementById('pricing-summary');
+
+            const selectedOption = destinationSelect.options[destinationSelect.selectedIndex];
+            const pricePerPerson = selectedOption.getAttribute('data-price');
+            const numPeople = parseInt(numPeopleInput.value) || 0;
+            const numDays = parseInt(numDaysInput.value) || 0;
+
+            if (pricePerPerson && numPeople > 0 && numDays > 0) {
+                const dailyRate = parseInt(pricePerPerson);
+                const totalAmount = dailyRate * numPeople * numDays;
+
+                document.getElementById('price-per-person').textContent = `₹${dailyRate.toLocaleString()}`;
+                document.getElementById('total-people').textContent = `${numPeople} × ${numDays}`;
+                document.getElementById('grand-total').textContent = `₹${totalAmount.toLocaleString()}`;
+
+                pricingSummary.style.display = 'block';
+            } else {
+                pricingSummary.style.display = 'none';
+            }
+        }
+
+        async function completeBooking() {
             isProcessing = true;
             updateProgress();
 
-            // Simulate booking process
-            setTimeout(() => {
-                // Hide all form sections and show success
-                for (let i = 1; i <= 3; i++) {
-                    document.getElementById('section' + i).classList.remove('active');
-                }
-                document.getElementById('success-section').classList.add('active');
+            const bookingData = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                smsUpdates: document.getElementById('sms-updates').checked,
+                startDate: document.getElementById('date-from').value,
+                endDate: document.getElementById('date-to').value,
+                destination: document.getElementById('destination').value,
+                destinationName: document.getElementById('destination').options[document.getElementById('destination').selectedIndex].text,
+                numPeople: parseInt(document.getElementById('num-people').value),
+                numDays: parseInt(document.getElementById('num-days').value),
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value,
+                cardNumber: document.getElementById('card-number').value,
+                expiryDate: document.getElementById('expiry-date').value,
+                cvv: document.getElementById('cvv').value,
+                cardHolder: document.getElementById('card-holder').value,
+                upiId: document.getElementById('upi-id').value,
+                totalPrice: document.getElementById('grand-total').textContent.replace(/[^\d]/g, ''),
+                dailyRate: document.getElementById('price-per-person').textContent.replace(/[^\d]/g, ''),
+                bookingDate: new Date().toISOString(),
+            };
 
-                // Hide navigation buttons
-                document.querySelector('.button-container:first-of-type').style.display = 'none';
+            try {
+                const response = await fetch("/booknow", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(bookingData)
+                });
 
-                // Show celebration
-                showNotification('🎉 Booking confirmed! Welcome to EduVentures!', 'success');
-
+                const result = await response.json();
                 isProcessing = false;
-            }, 2000);
+                updateProgress();
+
+                if (result.success) {
+                    window.location.href = result.redirect; // ✅ Redirect to dashboard
+                } else {
+                    showNotification(`❌ ${result.message}`, 'error');
+                }
+            } catch (err) {
+                isProcessing = false;
+                updateProgress();
+                console.error("Booking error:", err);
+                showNotification("❌ Failed to complete booking. Try again.", "error");
+            }
         }
 
         function selectPaymentMethod(method, element) {
@@ -1343,7 +1523,7 @@
                 top: 20px;
                 right: 20px;
                 padding: 15px 25px;
-                background: ${type === 'error' ? 'var(--warning-color)' : type === 'success' ? 'var(--success-color)' : 'var(--highlight-color)'};
+                background: ${type === 'error' ? 'var(--warning-color)' : type === 'success' ? 'var(--success-color)' : 'var(--highlight-color)'}; 
                 color: white;
                 border-radius: 12px;
                 box-shadow: var(--shadow-medium);

@@ -1021,6 +1021,8 @@
         </button>
     </div>
 
+    <script src="/js/auth.js"></script>
+
     <script>
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
@@ -1220,8 +1222,10 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'include',
                     body: JSON.stringify({ name, email, password })
                 });
+
 
                 const data = await response.json();
 

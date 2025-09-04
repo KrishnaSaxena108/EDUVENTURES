@@ -25,6 +25,10 @@
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             --border-radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
         }
 
         /* Light Mode Variables */
@@ -378,8 +382,8 @@
             box-shadow: 0 8px 24px rgba(107, 158, 255, 0.4);
         }
 
-        /* Trips Section */
-        .trips-container {
+        /* Bookings Section */
+        .bookings-container {
             display: flex;
             flex-direction: column;
             gap: 2rem;
@@ -407,28 +411,55 @@
             font-weight: 600;
         }
 
-        /* Trip Cards */
-        .trips-grid {
+        /* Booking Cards */
+        .bookings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
 
-        .trip-card {
+        .booking-card {
             background: var(--gradient);
             border-radius: var(--border-radius);
             overflow: hidden;
             border: 1px solid var(--border);
             transition: var(--transition);
             box-shadow: var(--shadow);
+            position: relative;
         }
 
-        .trip-card:hover {
+        .booking-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
         }
 
-        .trip-image {
+        .booking-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .status-confirmed {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-pending {
+            background: var(--warning);
+            color: white;
+        }
+
+        .status-cancelled {
+            background: var(--error);
+            color: white;
+        }
+
+        .booking-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
@@ -440,30 +471,36 @@
             font-size: 3rem;
         }
 
-        .trip-image img {
+        .booking-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .trip-content {
+        .booking-content {
             padding: 1.5rem;
         }
 
-        .trip-name {
-            font-size: 1.2rem;
+        .booking-title {
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
             margin-bottom: 1rem;
         }
 
-        .trip-details {
+        .booking-details {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
-        .trip-detail {
+        .booking-detail {
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -471,9 +508,35 @@
             font-size: 0.9rem;
         }
 
-        .trip-detail i {
+        .booking-detail i {
             color: var(--secondary-highlight);
             width: 16px;
+            text-align: center;
+        }
+
+        .booking-footer {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        [data-theme="light"] .booking-footer {
+            background: var(--surface-light);
+        }
+
+        .booking-id {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+        }
+
+        .booking-amount {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary-highlight);
         }
 
         /* Empty State */
@@ -551,7 +614,7 @@
                 display: none;
             }
 
-            .trips-grid {
+            .bookings-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -588,27 +651,93 @@
             }
         }
 
-        .dashboard-header,
-        .profile-card,
-        .trip-card,
-        .empty-state {
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .dashboard-header {
             animation: fadeInUp 0.6s ease-out forwards;
         }
 
         .profile-card {
+            animation: slideInFromLeft 0.6s ease-out forwards;
             animation-delay: 0.1s;
         }
 
-        .trip-card:nth-child(1) {
+        .bookings-container {
+            animation: slideInFromRight 0.6s ease-out forwards;
             animation-delay: 0.2s;
         }
 
-        .trip-card:nth-child(2) {
+        .booking-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .booking-card:nth-child(1) {
             animation-delay: 0.3s;
         }
 
-        .trip-card:nth-child(3) {
+        .booking-card:nth-child(2) {
             animation-delay: 0.4s;
+        }
+
+        .booking-card:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .empty-state {
+            animation: fadeInUp 0.6s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+
+        /* Additional Interactive Effects */
+        .booking-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg,
+                    rgba(107, 158, 255, 0.1) 0%,
+                    rgba(107, 158, 255, 0.05) 50%,
+                    transparent 100%);
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .booking-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(107, 158, 255, 0.2);
+        }
+
+        [data-theme="light"] .stat-item:hover {
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.1);
         }
     </style>
 </head>
@@ -637,7 +766,7 @@
     <main class="main-content">
         <div class="dashboard-header">
             <h1 class="dashboard-title">Your Adventure Dashboard</h1>
-            <p class="dashboard-subtitle">Manage your trips and explore new destinations</p>
+            <p class="dashboard-subtitle">Manage your bookings and explore new destinations</p>
         </div>
 
         <div class="dashboard-grid">
@@ -655,13 +784,13 @@
                 <div class="profile-stats">
                     <div class="stat-item">
                         <span class="stat-number">
-                            <%= user.visitedPlaces ? user.visitedPlaces.length : 0 %>
+                            <%= bookings.length %>
                         </span>
-                        <span class="stat-label">Visited Places</span>
+                        <span class="stat-label">Total Bookings</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-number">
-                            <%= user.upcomingTrips ? user.upcomingTrips.length : 0 %>
+                            <%= bookings.filter(booking=> new Date(booking.startDate) > new Date()).length %>
                         </span>
                         <span class="stat-label">Upcoming Trips</span>
                     </div>
@@ -669,124 +798,103 @@
 
                 <a href="/booknow" class="cta-button">
                     <i class="fas fa-plus"></i>
-                    Book New Trip
+                    Book New Adventure
                 </a>
             </div>
 
-            <div class="trips-container">
-                <div>
-                    <div class="section-header">
-                        <h3 class="section-title">Upcoming Trips</h3>
-                        <span class="section-count">
-                            <%= user.upcomingTrips ? user.upcomingTrips.length : 0 %>
-                        </span>
-                    </div>
-
-                    <% if (user.upcomingTrips && user.upcomingTrips.length> 0) { %>
-                        <div class="trips-grid">
-                            <% user.upcomingTrips.forEach(trip=> { %>
-                                <div class="trip-card">
-                                    <% if (trip.image) { %>
-                                        <img src="<%= trip.image %>" alt="<%= trip.name %>" class="trip-image">
-                                        <% } else { %>
-                                            <div class="trip-image">
-                                                <i class="fas fa-map-marked-alt"></i>
-                                            </div>
-                                            <% } %>
-                                                <div class="trip-content">
-                                                    <h4 class="trip-name">
-                                                        <%= trip.name %>
-                                                    </h4>
-                                                    <div class="trip-details">
-                                                        <div class="trip-detail">
-                                                            <i class="fas fa-map-marker-alt"></i>
-                                                            <span>
-                                                                <%= trip.location %>
-                                                            </span>
-                                                        </div>
-                                                        <div class="trip-detail">
-                                                            <i class="fas fa-calendar-alt"></i>
-                                                            <span>
-                                                                <%= new Date(trip.date).toLocaleDateString('en-US', {
-                                                                    year: 'numeric' , month: 'long' , day: 'numeric' })
-                                                                    %>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                </div>
-                                <% }); %>
-                        </div>
-                        <% } else { %>
-                            <div class="empty-state">
-                                <div class="empty-icon">
-                                    <i class="fas fa-calendar-plus"></i>
-                                </div>
-                                <h4 class="empty-title">No Upcoming Trips</h4>
-                                <p class="empty-text">You don't have any upcoming adventures planned yet.</p>
-                                <a href="/booknow" class="cta-button" style="width: auto; padding: 0.75rem 1.5rem;">
-                                    <i class="fas fa-plus"></i>
-                                    Book Your First Adventure
-                                </a>
-                            </div>
-                            <% } %>
+            <div class="bookings-container">
+                <div class="section-header">
+                    <h3 class="section-title">Your Bookings</h3>
+                    <span class="section-count">
+                        <%= bookings.length %>
+                    </span>
                 </div>
 
-                <div>
-                    <div class="section-header">
-                        <h3 class="section-title">Places You've Visited</h3>
-                        <span class="section-count">
-                            <%= user.visitedPlaces ? user.visitedPlaces.length : 0 %>
-                        </span>
-                    </div>
+                <% if (bookings && bookings.length> 0) { %>
+                    <div class="bookings-grid">
+                        <% bookings.forEach(booking=> {
+                            const travelDate = new Date(booking.startDate);
+                            const today = new Date();
+                            const isUpcoming = travelDate > today;
+                            const isPast = travelDate < today; %>
+                                <div class="booking-card">
+                                    <div class="booking-image">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
 
-                    <% if (user.visitedPlaces && user.visitedPlaces.length> 0) { %>
-                        <div class="trips-grid">
-                            <% user.visitedPlaces.forEach(place=> { %>
-                                <div class="trip-card">
-                                    <% if (place.image) { %>
-                                        <img src="<%= place.image %>" alt="<%= place.name %>" class="trip-image">
-                                        <% } else { %>
-                                            <div class="trip-image">
-                                                <i class="fas fa-map-marked-alt"></i>
+                                    <div class="booking-content">
+                                        <h4 class="booking-title">
+                                            <%= booking.destination || 'Adventure Package' %>
+                                        </h4>
+                                        <p class="booking-subtitle">
+                                            <%= booking.tourType || 'Educational Tour' %>
+                                        </p>
+                                        <div class="booking-details">
+                                            <div class="booking-detail">
+                                                <i class="fas fa-users"></i>
+                                                <span>
+                                                    <%= booking.numPeople %> People
+                                                </span>
                                             </div>
-                                            <% } %>
-                                                <div class="trip-content">
-                                                    <h4 class="trip-name">
-                                                        <%= place.name %>
-                                                    </h4>
-                                                    <div class="trip-details">
-                                                        <div class="trip-detail">
-                                                            <i class="fas fa-map-marker-alt"></i>
-                                                            <span>
-                                                                <%= place.location %>
-                                                            </span>
-                                                        </div>
-                                                        <div class="trip-detail">
-                                                            <i class="fas fa-calendar-check"></i>
-                                                            <span>Visited: <%= new
-                                                                    Date(place.date).toLocaleDateString('en-US', {
-                                                                    year: 'numeric' , month: 'long' }) %></span>
-                                                        </div>
-                                                    </div>
+                                            <div class="booking-detail">
+                                                <i class="fas fa-calendar-alt"></i>
+                                                <span>
+                                                    <%= travelDate.toLocaleDateString('en-US', { year: 'numeric' ,
+                                                        month: 'long' , day: 'numeric' }) %>
+                                                </span>
+                                            </div>
+                                            <div class="booking-detail">
+                                                <i class="fas fa-clock"></i>
+                                                <span>
+                                                    <% if (isUpcoming) { %>
+                                                        <strong style="color: var(--success);">Upcoming</strong>
+                                                        <% } else if (isPast) { %>
+                                                            <strong style="color: var(--text-muted);">Completed</strong>
+                                                            <% } else { %>
+                                                                <strong style="color: var(--warning);">Today</strong>
+                                                                <% } %>
+                                                </span>
+                                            </div>
+                                            <div class="booking-detail">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span>
+                                                    Booked: <%= new
+                                                        Date(booking.bookingDate).toLocaleDateString('en-US', {
+                                                        year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                                </span>
+                                            </div>
+                                            <% if (booking.specialRequests) { %>
+                                                <div class="booking-detail">
+                                                    <i class="fas fa-sticky-note"></i>
+                                                    <span>
+                                                        <%= booking.specialRequests %>
+                                                    </span>
                                                 </div>
+                                                <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="booking-footer">
+                                        <span class="booking-id">ID: <%= booking._id.toString().slice(-8).toUpperCase()
+                                                %></span>
+                                        <span class="booking-amount">₹<%= booking.totalPrice || 'N/A' %></span>
+                                    </div>
                                 </div>
                                 <% }); %>
-                        </div>
-                        <% } else { %>
-                            <div class="empty-state">
-                                <div class="empty-icon">
-                                    <i class="fas fa-map-marked"></i>
-                                </div>
-                                <h4 class="empty-title">No Places Visited</h4>
-                                <p class="empty-text">You haven't visited any places yet. Start your adventure!</p>
-                                <a href="/tours" class="cta-button" style="width: auto; padding: 0.75rem 1.5rem;">
-                                    <i class="fas fa-compass"></i>
-                                    Explore Destinations
-                                </a>
+                    </div>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-ticket-alt"></i>
                             </div>
-                            <% } %>
-                </div>
+                            <h4 class="empty-title">No Bookings Yet</h4>
+                            <p class="empty-text">You haven't made any bookings yet. Start your adventure today!</p>
+                            <a href="/booknow" class="cta-button" style="width: auto; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-plus"></i>
+                                Book Your First Adventure
+                            </a>
+                        </div>
+                        <% } %>
             </div>
         </div>
     </main>
@@ -811,14 +919,30 @@
             body.setAttribute('data-theme', currentTheme);
         });
 
-        // Add interactive effects to trip cards
-        document.querySelectorAll('.trip-card').forEach(card => {
+        // Add interactive effects to booking cards
+        document.querySelectorAll('.booking-card').forEach((card, index) => {
             card.addEventListener('mouseenter', () => {
                 card.style.transform = 'translateY(-8px) scale(1.02)';
+                card.style.zIndex = '10';
             });
 
             card.addEventListener('mouseleave', () => {
                 card.style.transform = '';
+                card.style.zIndex = '';
+            });
+
+            // Stagger animation delays
+            card.style.animationDelay = `${0.3 + (index * 0.1)}s`;
+        });
+
+        // Add interactive effects to stat items
+        document.querySelectorAll('.stat-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-4px) scale(1.05)';
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = '';
             });
         });
 
@@ -833,6 +957,74 @@
                         block: 'start'
                     });
                 }
+            });
+        });
+
+        // Add loading animation to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function (e) {
+                if (this.href && this.href.includes('/booknow')) {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    this.style.pointerEvents = 'none';
+
+                    // Reset after a short delay (in case navigation is slow)
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.pointerEvents = '';
+                    }, 3000);
+                }
+            });
+        });
+
+        // Add subtle parallax effect to background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.body;
+            const speed = scrolled * 0.5;
+
+            parallax.style.backgroundPosition = `center ${speed}px`;
+        });
+
+        // Add booking status color animation
+        document.querySelectorAll('.booking-status').forEach(status => {
+            status.addEventListener('mouseenter', () => {
+                status.style.transform = 'scale(1.1)';
+                status.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+            });
+
+            status.addEventListener('mouseleave', () => {
+                status.style.transform = '';
+                status.style.boxShadow = '';
+            });
+        });
+
+        // Add counter animation for stats
+        function animateCounter(element, target) {
+            const duration = 1000;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Initialize counter animations when page loads
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.stat-number').forEach(stat => {
+                const target = parseInt(stat.textContent);
+                stat.textContent = '0';
+                setTimeout(() => {
+                    animateCounter(stat, target);
+                }, 500);
             });
         });
     </script>
